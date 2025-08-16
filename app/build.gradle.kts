@@ -56,10 +56,13 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = System.getenv("SYNCTHING_RELEASE_STORE_FILE")?.let(::file)
-            storePassword = System.getenv("SIGNING_PASSWORD")
-            keyAlias = System.getenv("SYNCTHING_RELEASE_KEY_ALIAS")
-            keyPassword = System.getenv("SIGNING_PASSWORD")
+            val storeFilePath = System.getenv("SYNCTHING_RELEASE_STORE_FILE")
+            if (!storeFilePath.isNullOrEmpty()) {
+                storeFile = file(storeFilePath)
+                storePassword = System.getenv("SIGNING_PASSWORD")
+                keyAlias = System.getenv("SYNCTHING_RELEASE_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_PASSWORD")
+            }
         }
     }
 
@@ -72,9 +75,10 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = false
-            signingConfig = signingConfigs.runCatching { getByName("release") }
-                .getOrNull()
-                .takeIf { it?.storeFile != null }
+            val releaseSigningConfig = signingConfigs.getByName("release")
+            if (releaseSigningConfig.storeFile != null) {
+                signingConfig = releaseSigningConfig
+            }
         }
         create("gplay") {
             initWith(getByName("release"))
