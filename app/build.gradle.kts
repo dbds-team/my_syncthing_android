@@ -44,6 +44,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -52,6 +53,14 @@ android {
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
+        
+        // Ensure manifest placeholders are properly resolved
+        manifestPlaceholders["applicationId"] = applicationId!!
+        
+        // Add version info to BuildConfig
+        buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
+        buildConfigField("int", "VERSION_CODE", "${versionCode}")
+        buildConfigField("String", "APPLICATION_ID", "\"${applicationId}\"")
     }
 
     signingConfigs {
