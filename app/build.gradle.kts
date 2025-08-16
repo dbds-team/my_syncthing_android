@@ -54,9 +54,6 @@ android {
         versionCode = libs.versions.version.code.get().toInt()
         versionName = libs.versions.version.name.get()
         
-        // Ensure manifest placeholders are properly resolved
-        manifestPlaceholders["applicationId"] = applicationId!!
-        
         // Add version info to BuildConfig
         buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
         buildConfigField("int", "VERSION_CODE", "${versionCode}")
