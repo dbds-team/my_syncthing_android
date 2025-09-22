@@ -9,7 +9,7 @@ version-code = "2000100"
 version-name = "2.0.1.0"
 
 aboutLibraries = "12.2.4"
-activity = "1.10.1"
+activity = "1.11.0"
 android-material = "1.12.0"
 android-gradle-plugin = "8.11.1"
 compose-material3 = "1.3.2"
